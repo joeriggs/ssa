@@ -13,6 +13,7 @@ type Statement struct {
 	XMLName             xml.Name          `xml:"OnlineSocialSecurityStatementData"`
 	UserInfo            UserInfo          `xml:"UserInformation"`
 	EstimatedBenefits   EstimatedBenefits `xml:"EstimatedBenefits"`
+	EarningsRecord      EarningsRecord    `xml:"EarningsRecord"`
 }
 
 // This data structure defines the contents of osss:UserInformation.
@@ -28,6 +29,20 @@ type EstimatedBenefits struct {
 	EarlyRetirementEstimate   EarlyRetirementEstimate   `xml:"EarlyRetirementEstimate"`
 	FullRetirementEstimate    FullRetirementEstimate    `xml:"FullRetirementEstimate"`
 	DelayedRetirementEstimate DelayedRetirementEstimate `xml:"DelayedRetirementEstimate"`
+}
+
+// This data structure defines the contents of osss:EarningsRecord.  It contains an
+// array of entries for each year that the person worked.
+type EarningsRecord struct {
+	XMLName   xml.Name  `xml:"EarningsRecord"`
+	Earnings []Earnings `xml:"Earnings"`
+}
+
+type Earnings struct {
+	XMLName          xml.Name `xml:"Earnings"`
+	Year             string   `xml:"startYear,attr"`
+	FicaEarnings     string   `xml:"FicaEarnings"`
+	MedicareEarnings string   `xml:"MedicareEarnings"`
 }
 
 type EarlyRetirementEstimate struct {
@@ -87,5 +102,14 @@ func main() {
 	fmt.Println("Delayed Retirement: " + userStatement.EstimatedBenefits.DelayedRetirementEstimate.RetirementAge.Years +
 	                                     " years old.  $" +
 	                                     userStatement.EstimatedBenefits.DelayedRetirementEstimate.Estimate)
+
+	for i := 0; i < len(userStatement.EarningsRecord.Earnings); i++ {
+                fmt.Println("                    " +
+		            userStatement.EarningsRecord.Earnings[i].Year +
+		            ": FICA Earnings $" +
+		            userStatement.EarningsRecord.Earnings[i].FicaEarnings +
+		            ": Medicare Earnings $" +
+		            userStatement.EarningsRecord.Earnings[i].MedicareEarnings)
+	}
 }
 

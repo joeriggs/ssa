@@ -4,9 +4,13 @@
 *.dll
 *.so
 *.dylib
+ssaData
 
 # Test binary, build with `go test -c`
 *.test
+
+# VIM temporary files.
+.*.swp
 
 # Test input files.
 *.xml
