@@ -40,32 +40,32 @@ type EarningsRecord struct {
 
 type Earnings struct {
 	XMLName          xml.Name `xml:"Earnings"`
-	Year             string   `xml:"startYear,attr"`
-	FicaEarnings     string   `xml:"FicaEarnings"`
-	MedicareEarnings string   `xml:"MedicareEarnings"`
+	Year             int      `xml:"startYear,attr"`
+	FicaEarnings     int      `xml:"FicaEarnings"`
+	MedicareEarnings int      `xml:"MedicareEarnings"`
 }
 
 type EarlyRetirementEstimate struct {
 	XMLName       xml.Name      `xml:"EarlyRetirementEstimate"`
 	RetirementAge RetirementAge `xml:"RetirementAge"`
-	Estimate      string        `xml:"Estimate"`
+	Estimate      int           `xml:"Estimate"`
 }
 
 type FullRetirementEstimate struct {
 	XMLName       xml.Name      `xml:"FullRetirementEstimate"`
 	RetirementAge RetirementAge `xml:"RetirementAge"`
-	Estimate      string        `xml:"Estimate"`
+	Estimate      int           `xml:"Estimate"`
 }
 
 type DelayedRetirementEstimate struct {
 	XMLName       xml.Name      `xml:"DelayedRetirementEstimate"`
 	RetirementAge RetirementAge `xml:"RetirementAge"`
-	Estimate      string        `xml:"Estimate"`
+	Estimate      int           `xml:"Estimate"`
 }
 
 type RetirementAge struct {
 	XMLName xml.Name `xml:"RetirementAge"`
-	Years   string   `xml:"Years"`
+	Years   int      `xml:"Years"`
 }
 
 func main() {
@@ -90,25 +90,20 @@ func main() {
 	// into 'userStatement' (which we defined above).
 	xml.Unmarshal(byteValue, &userStatement)
 
-	fmt.Println("Name:               " + userStatement.UserInfo.Name)
-	fmt.Println("DateOfBirth:        " + userStatement.UserInfo.DateOfBirth)
+	fmt.Printf("Name:               %v\n", userStatement.UserInfo.Name)
+	fmt.Printf("DateOfBirth:        %v\n", userStatement.UserInfo.DateOfBirth)
 
-	fmt.Println("Early Retirement:   " + userStatement.EstimatedBenefits.EarlyRetirementEstimate.RetirementAge.Years +
-	                                     " years old.  $" +
+	fmt.Printf("Early Retirement:   %v years old. $%v.\n", userStatement.EstimatedBenefits.EarlyRetirementEstimate.RetirementAge.Years,
 	                                     userStatement.EstimatedBenefits.EarlyRetirementEstimate.Estimate)
-	fmt.Println("Full Retirement:    " + userStatement.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Years +
-	                                     " years old.  $" +
+	fmt.Printf("Full Retirement:    %v years old. $%v.\n", userStatement.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Years,
 	                                     userStatement.EstimatedBenefits.FullRetirementEstimate.Estimate)
-	fmt.Println("Delayed Retirement: " + userStatement.EstimatedBenefits.DelayedRetirementEstimate.RetirementAge.Years +
-	                                     " years old.  $" +
+	fmt.Printf("Delayed Retirement: %v years old. $%v.\n", userStatement.EstimatedBenefits.DelayedRetirementEstimate.RetirementAge.Years,
 	                                     userStatement.EstimatedBenefits.DelayedRetirementEstimate.Estimate)
 
 	for i := 0; i < len(userStatement.EarningsRecord.Earnings); i++ {
-                fmt.Println("                    " +
-		            userStatement.EarningsRecord.Earnings[i].Year +
-		            ": FICA Earnings $" +
-		            userStatement.EarningsRecord.Earnings[i].FicaEarnings +
-		            ": Medicare Earnings $" +
+                fmt.Printf("                    %v: FICA Earnings $%v: Medicate Earnings $%v\n",
+		            userStatement.EarningsRecord.Earnings[i].Year,
+		            userStatement.EarningsRecord.Earnings[i].FicaEarnings,
 		            userStatement.EarningsRecord.Earnings[i].MedicareEarnings)
 	}
 }
