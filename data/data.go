@@ -2,11 +2,14 @@ package data
 
 import (
 	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 // This struct contains the entire data file.  It's everything that is inside
 // osss:OnlineSocialSecurityStatementData.
-type Statement struct {
+type statement struct {
 	XMLName             xml.Name          `xml:"OnlineSocialSecurityStatementData"`
 	UserInfo            UserInfo          `xml:"UserInformation"`
 	EstimatedBenefits   EstimatedBenefits `xml:"EstimatedBenefits"`
@@ -73,5 +76,120 @@ type DelayedRetirementEstimate struct {
 type RetirementAge struct {
 	XMLName xml.Name `xml:"RetirementAge"`
 	Years   int      `xml:"Years"`
+	Months  int      `xml:"Months"`
+}
+
+/*******************************************************************************
+ * This is the beginning of the public API.
+ ******************************************************************************/
+
+func New(fileName string) statement {
+	// Initialize the Statement structure.
+	statement := statement { }
+
+	// Open our xmlFile.  Print an error message if we fail.
+	xmlFile, err := os.Open(fileName)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		//fmt.Printf("Successfully Opened xml file '%v'.\n", fileName)
+
+		// Defer closing the file.
+		defer xmlFile.Close()
+
+		// Read the file as a byte array.
+		byteValue, _ := ioutil.ReadAll(xmlFile)
+
+		// Unmarshal the byteArray that contains the contents of the file
+		// into 'Statement' (which we defined above).
+		xml.Unmarshal(byteValue, &statement)
+	}
+
+	return statement
+}
+
+// Return the person's name.
+func (s statement) GetName() string {
+	return s.UserInfo.Name
+}
+
+// Return the person's date of birth.
+func (s statement) GetDateOfBirth() string {
+	return s.UserInfo.DateOfBirth
+}
+
+// Return the person's early retirement data.
+func (s statement) GetEarlyRetirement() (int, int) {
+	return s.EstimatedBenefits.EarlyRetirementEstimate.RetirementAge.Years,
+	       s.EstimatedBenefits.EarlyRetirementEstimate.Estimate
+}
+
+// Return the person's full retirement data.  Note that it returns 3 values,
+// because the "age" is given as years and months.
+func (s statement) GetFullRetirement() (int, int, int) {
+	return s.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Years,
+	       s.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Months,
+	       s.EstimatedBenefits.FullRetirementEstimate.Estimate
+}
+
+// Return the person's delayed retirement data.
+func (s statement) GetDelayedRetirement() (int, int) {
+	return s.EstimatedBenefits.DelayedRetirementEstimate.RetirementAge.Years,
+	       s.EstimatedBenefits.DelayedRetirementEstimate.Estimate
+}
+
+// Return the person's disability benefit.
+func (s statement) GetDisabilityEstimate() int {
+	return s.EstimatedBenefits.DisabilityEstimate
+}
+
+// Return the person's one-time death benefit.
+func (s statement) GetOneTimeDeathBenefit() int {
+	return s.EstimatedBenefits.OneTimeDeathBenefit
+}
+
+// Return the surviving child estimated benefit.
+func (s statement) GetSurvivorsEstimateChild() int {
+	return s.EstimatedBenefits.SurvivorsEstimateChild
+}
+
+// Return the surviving family estimated benefit.
+func (s statement) GetSurvivorsEstimateFamily() int {
+	return s.EstimatedBenefits.SurvivorsEstimateFamily
+}
+
+// Return the surviving spouse's estimated retirement benefit.
+func (s statement) GetSurvivorsEstimateRetired() int {
+	return s.EstimatedBenefits.SurvivorsEstimateRetired
+}
+
+// Return the surviving spouse and surviving child benefit.
+func (s statement) GetSurvivorsEstimateSpouseChild() int {
+	return s.EstimatedBenefits.SurvivorsEstimateSpouseChild
+}
+
+// Return the person's FICA totals.
+func (s statement) GetFicaTaxTotals() (int, int) {
+	return s.EarningsRecord.FicaTaxTotalEmployer,
+	       s.EarningsRecord.FicaTaxTotalIndividual
+}
+
+// Return the person's Medicare totals.
+func (s statement) GetMedicareTaxTotals() (int, int) {
+	return s.EarningsRecord.MedicareTaxTotalEmployer,
+	       s.EarningsRecord.MedicareTaxTotalIndividual
+}
+
+// Return the number of earnings years that the person has.
+func (s statement) GetNumEarningsYears() int {
+	return len(s.EarningsRecord.Earnings)
+}
+
+// Return the earnings information for the specified year.  Note that the
+// year is specified as an index.
+func (s statement) GetEarningsYear(index int) (int, int, int) {
+	return s.EarningsRecord.Earnings[index].Year,
+	       s.EarningsRecord.Earnings[index].FicaEarnings,
+	       s.EarningsRecord.Earnings[index].MedicareEarnings
 }
 
