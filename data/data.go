@@ -109,85 +109,85 @@ func New(fileName string) statement {
 }
 
 // Return the person's name.
-func (s statement) GetName() string {
+func (s statement) Name() string {
 	return s.UserInfo.Name
 }
 
 // Return the person's date of birth.
-func (s statement) GetDateOfBirth() string {
+func (s statement) DateOfBirth() string {
 	return s.UserInfo.DateOfBirth
 }
 
 // Return the person's early retirement data.
-func (s statement) GetEarlyRetirement() (int, int) {
+func (s statement) EarlyRetirement() (int, int) {
 	return s.EstimatedBenefits.EarlyRetirementEstimate.RetirementAge.Years,
 	       s.EstimatedBenefits.EarlyRetirementEstimate.Estimate
 }
 
 // Return the person's full retirement data.  Note that it returns 3 values,
 // because the "age" is given as years and months.
-func (s statement) GetFullRetirement() (int, int, int) {
+func (s statement) FullRetirement() (int, int, int) {
 	return s.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Years,
 	       s.EstimatedBenefits.FullRetirementEstimate.RetirementAge.Months,
 	       s.EstimatedBenefits.FullRetirementEstimate.Estimate
 }
 
 // Return the person's delayed retirement data.
-func (s statement) GetDelayedRetirement() (int, int) {
+func (s statement) DelayedRetirement() (int, int) {
 	return s.EstimatedBenefits.DelayedRetirementEstimate.RetirementAge.Years,
 	       s.EstimatedBenefits.DelayedRetirementEstimate.Estimate
 }
 
 // Return the person's disability benefit.
-func (s statement) GetDisabilityEstimate() int {
+func (s statement) DisabilityEstimate() int {
 	return s.EstimatedBenefits.DisabilityEstimate
 }
 
 // Return the person's one-time death benefit.
-func (s statement) GetOneTimeDeathBenefit() int {
+func (s statement) OneTimeDeathBenefit() int {
 	return s.EstimatedBenefits.OneTimeDeathBenefit
 }
 
 // Return the surviving child estimated benefit.
-func (s statement) GetSurvivorsEstimateChild() int {
+func (s statement) SurvivorsEstimateChild() int {
 	return s.EstimatedBenefits.SurvivorsEstimateChild
 }
 
 // Return the surviving family estimated benefit.
-func (s statement) GetSurvivorsEstimateFamily() int {
+func (s statement) SurvivorsEstimateFamily() int {
 	return s.EstimatedBenefits.SurvivorsEstimateFamily
 }
 
 // Return the surviving spouse's estimated retirement benefit.
-func (s statement) GetSurvivorsEstimateRetired() int {
+func (s statement) SurvivorsEstimateRetired() int {
 	return s.EstimatedBenefits.SurvivorsEstimateRetired
 }
 
 // Return the surviving spouse and surviving child benefit.
-func (s statement) GetSurvivorsEstimateSpouseChild() int {
+func (s statement) SurvivorsEstimateSpouseChild() int {
 	return s.EstimatedBenefits.SurvivorsEstimateSpouseChild
 }
 
 // Return the person's FICA totals.
-func (s statement) GetFicaTaxTotals() (int, int) {
+func (s statement) FicaTaxTotals() (int, int) {
 	return s.EarningsRecord.FicaTaxTotalEmployer,
 	       s.EarningsRecord.FicaTaxTotalIndividual
 }
 
 // Return the person's Medicare totals.
-func (s statement) GetMedicareTaxTotals() (int, int) {
+func (s statement) MedicareTaxTotals() (int, int) {
 	return s.EarningsRecord.MedicareTaxTotalEmployer,
 	       s.EarningsRecord.MedicareTaxTotalIndividual
 }
 
 // Return the number of earnings years that the person has.
-func (s statement) GetNumEarningsYears() int {
+func (s statement) NumEarningsYears() int {
 	return len(s.EarningsRecord.Earnings)
 }
 
 // Return the earnings information for the specified year.  Note that the
 // year is specified as an index.
-func (s statement) GetEarningsYear(index int) (int, int, int) {
+func (s statement) EarningsYear(index int) (int, int, int) {
 	return s.EarningsRecord.Earnings[index].Year,
 	       s.EarningsRecord.Earnings[index].FicaEarnings,
 	       s.EarningsRecord.Earnings[index].MedicareEarnings

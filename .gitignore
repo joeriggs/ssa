@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-ssaData
+ssa
 
 # Test binary, build with `go test -c`
 *.test
