@@ -24,7 +24,7 @@ func indexingFactor(dob, year int) float32 {
 		var awi_60 float32 = AverageWageIndex(age_60)
 		var awi    float32 = AverageWageIndex(year)
 		indexing_factor = awi_60 / awi
-		fmt.Printf("indexingFactor(): dob %d : year %d : awi_60 %f : awi %f : indexing_factor %f\n", dob, year, awi_60, awi, indexing_factor)
+		//fmt.Printf("indexingFactor(): dob %d : year %d : awi_60 %f : awi %f : indexing_factor %f\n", dob, year, awi_60, awi, indexing_factor)
 	}
 
 	return indexing_factor
@@ -46,7 +46,7 @@ func WageListCreate() WageList {
 	return list
 }
 
-func WageListHighestIndexedEarnings(dob int, earnings_list wages.WageList, highest_earnings WageList) {
+func WageListHighestIndexedEarnings(dob int, earnings_list wages.List, highest_earnings WageList) {
 	for wageYear, wageWage := range earnings_list {
 		var maxEarnings int = MaxEarnings(wageYear)
 		var allowedWage float32
@@ -58,20 +58,20 @@ func WageListHighestIndexedEarnings(dob int, earnings_list wages.WageList, highe
 
 		var indexingFactor float32 = indexingFactor(dob, wageYear)
 		var indexedEarnings float32 = allowedWage * indexingFactor
-		fmt.Printf("WageListHighestIndexedEarnings(): BEFORE %d\n", indexedEarnings)
+		//fmt.Printf("WageListHighestIndexedEarnings(): %d: %6.2f: %6.2f * %f = %6.2f\n",
+		//             wageYear, wageWage, allowedWage, indexingFactor, indexedEarnings)
 
 		/* Do we need to round indexedEarnings up? */
 		var ie float32 = float32(allowedWage) * indexingFactor
 		var a float32 = float32(indexedEarnings)
 		a += 0.5
 		if(ie >= 1) {
-			fmt.Printf("Bumping indexedEarnings\n")
+			//fmt.Printf("Bumping indexedEarnings\n")
 			indexedEarnings++
 		}
 
-		fmt.Printf("WageListHighestIndexedEarnings(): wageYear %d : wageWage %f\n", wageYear, wageWage)
-		fmt.Printf("WageListHighestIndexedEarnings(): maxEarnings %d : allowedWage %f\n", maxEarnings, allowedWage)
-		fmt.Printf("WageListHighestIndexedEarnings(): indexingFactor %f : indexedEarnings %f\n", indexingFactor, indexedEarnings)
+		//fmt.Printf("WageListHighestIndexedEarnings(): %d: %6.2f: %6d: %6.2f * %f = %6.2f\n",
+		//             wageYear, wageWage, maxEarnings, allowedWage, indexingFactor, indexedEarnings)
 
 		var y int
 		for i := 0; i < len(highest_earnings); i++ {
@@ -84,23 +84,25 @@ func WageListHighestIndexedEarnings(dob int, earnings_list wages.WageList, highe
 		}
 
 		if highest_earnings[y].year != 0 {
-			fmt.Printf("Lowest index is %d (%d %f).\n", y, highest_earnings[y].year, highest_earnings[y].wage)
+			//fmt.Printf("Lowest index is %d (%d %f).\n", y, highest_earnings[y].year, highest_earnings[y].wage)
 		}
-		if highest_earnings[y].wage > wageWage {
-			fmt.Printf("Throwing away %d : %f.\n", wageYear, wageWage)
+		if highest_earnings[y].wage > float32(indexedEarnings) {
+			//fmt.Printf("Throwing away %d : %f.\n", wageYear, wageWage)
 			continue
 		}
 
-		fmt.Printf("Replacing %d (%f) with %d (%f).\n", highest_earnings[y].year, highest_earnings[y].wage, wageYear, indexedEarnings)
+		//fmt.Printf("Replacing %d (%f) with %d (%f).\n", highest_earnings[y].year, highest_earnings[y].wage, wageYear, indexedEarnings)
 		highest_earnings[y].year = wageYear
 		highest_earnings[y].wage = float32(indexedEarnings)
 	}
 
 	/* Take a look at the result. */
+	fmt.Printf("List: Begin\n");
 	for i := 0; i < len(highest_earnings); i++ {
 		if highest_earnings[i].year > 0 {
-			fmt.Printf("%2d: %d: %11.2f\n", i, highest_earnings[i].year, highest_earnings[i].wage)
+			fmt.Printf("List: %d: %11.2f\n", highest_earnings[i].year, highest_earnings[i].wage)
 		}
 	}
+	fmt.Printf("List: End\n");
 }
 

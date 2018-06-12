@@ -43,7 +43,7 @@ func min(val1, val2 int) int {
 	}
 }
 
-func Benefit(dob int, career_earnings wages.WageList) {
+func Benefit(dob int, career_earnings wages.List) {
 	var highest_earnings WageList = WageListCreate()
 
 	WageListHighestIndexedEarnings(dob, career_earnings, highest_earnings)
