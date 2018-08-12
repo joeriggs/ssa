@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"time"
 )
 
 // This struct contains the entire data file.  It's everything that is inside
@@ -113,9 +114,20 @@ func (s statement) Name() string {
 	return s.UserInfo.Name
 }
 
-// Return the person's date of birth.
+// Return a string containing the person's date of birth.
 func (s statement) DateOfBirth() string {
 	return s.UserInfo.DateOfBirth
+}
+
+// Return the person's birth year.
+func (s statement) DateOfBirthYear() int {
+	t, err := time.Parse("2006-01-02", s.UserInfo.DateOfBirth)
+	if err != nil {
+		fmt.Println(err)
+		return 0
+	} else {
+		return t.Year()
+	}
 }
 
 // Return the person's early retirement data.
