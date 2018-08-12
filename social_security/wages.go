@@ -1,7 +1,6 @@
 package social_security
 
-import ( "fmt"
-         "github.com/joeriggs/ssa/wages"
+import ( "github.com/joeriggs/ssa/wages"
 )
 
 type WageListEntry struct {
@@ -97,12 +96,12 @@ func WageListHighestIndexedEarnings(dob int, earnings_list wages.List, highest_e
 	}
 
 	/* Take a look at the result. */
-	fmt.Printf("List: Begin\n");
-	for i := 0; i < len(highest_earnings); i++ {
-		if highest_earnings[i].year > 0 {
-			fmt.Printf("List: %d: %11.2f\n", highest_earnings[i].year, highest_earnings[i].wage)
-		}
-	}
-	fmt.Printf("List: End\n");
+//	fmt.Printf("List: Begin\n");
+//	for i := 0; i < len(highest_earnings); i++ {
+//		if highest_earnings[i].year > 0 {
+//			fmt.Printf("List: %d: %11.2f\n", highest_earnings[i].year, highest_earnings[i].wage)
+//		}
+//	}
+//	fmt.Printf("List: End\n");
 }
 
