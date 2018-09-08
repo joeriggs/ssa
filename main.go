@@ -5,12 +5,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/joeriggs/ssa/data"
+	"github.com/joeriggs/ssa/statement"
 )
 
 func main() {
 
-	statement := data.New("Your_Social_Security_Statement_Data.xml")
+	statement := statement.New("Your_Social_Security_Statement_Data.xml")
 
 	fmt.Printf("Name:                         %v\n", statement.Name())
 	fmt.Printf("DateOfBirth:                  %v\n", statement.DateOfBirth())

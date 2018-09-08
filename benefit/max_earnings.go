@@ -1,4 +1,4 @@
-package social_security
+package benefit
 
 /* Contribution and Benefit Base Table.  Taken from:
  *   https://www.ssa.gov/oact/COLA/cbb.html

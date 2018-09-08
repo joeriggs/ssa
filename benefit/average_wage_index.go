@@ -1,4 +1,4 @@
-package social_security
+package benefit
 
 /* Average Wage Index (a.k.a. AWI) Table, taken from:
  *   https://www.ssa.gov/oact/COLA/AWI.html

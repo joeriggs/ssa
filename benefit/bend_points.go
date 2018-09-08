@@ -1,4 +1,4 @@
-package social_security
+package benefit
 
 /* These are the "bend points" for the Primary Insurance Amount (PIA)
  * calculation.  They were lifted from:

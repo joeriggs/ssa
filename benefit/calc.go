@@ -1,4 +1,4 @@
-package social_security
+package benefit
 
 /*******************************************************************************
  * The ssa package an implementation of the algorithms that are used to
@@ -43,11 +43,11 @@ func min(val1, val2 int) int {
 }
 
 func Benefit(dob int, career_earnings wages.List) int {
-	var highest_earnings WageList = WageListCreate()
+	var highest_earnings IndexedWages = IndexedWagesCreate()
 
-	WageListHighestIndexedEarnings(dob, career_earnings, highest_earnings)
+	IndexedWagesHighestIndexedEarnings(dob, career_earnings, highest_earnings)
 
-	var total float32 = WageListTotalIndexedEarnings(highest_earnings)
+	var total float32 = IndexedWagesTotalIndexedEarnings(highest_earnings)
 
 	var AIME int = int(total) / (35 * 12)
 
