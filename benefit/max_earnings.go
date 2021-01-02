@@ -88,6 +88,9 @@ var maxWages = map[int]int{
   2016: 118500,
   2017: 127200,
   2018: 128400,
+  2019: 132900,
+  2020: 137700,
+  2021: 142800,
 }
 
 var meMostRecentYear int = 0

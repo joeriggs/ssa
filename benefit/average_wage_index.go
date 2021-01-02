@@ -78,6 +78,9 @@ var averageWageIndexes = map[int]float32{
   2014:  46481.52,
   2015:  48098.63,
   2016:  48642.15,
+  2017:  50321.89,
+  2018:  52145.80,
+  2019:  54099.99,
 }
 
 var awiMostRecentYear int = 0
